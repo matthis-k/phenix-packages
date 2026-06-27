@@ -1,8 +1,13 @@
-{ ... }: {
+_: {
   perSystem = { pkgs, ... }: {
     devShells.default = pkgs.mkShell {
       name = "phenix-packages-dev";
-      packages = with pkgs; [ nix nixfmt statix deadnix ];
+      packages = with pkgs; [
+        nix
+        nixfmt
+        statix
+        deadnix
+      ];
       shellHook = ''
         repo-hook() {
           if command -v tend &>/dev/null; then
