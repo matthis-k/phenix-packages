@@ -1,0 +1,47 @@
+{ pkgs, ... }:
+let
+  inherit (pkgs)
+    git
+    gh
+    ripgrep
+    fd
+    fzf
+    bat
+    eza
+    delta
+    jq
+    htop
+    btop
+    tmux
+    lazygit
+    zoxide
+    curl
+    wget
+    unzip
+    starship
+    ;
+in
+{
+  packages = {
+    inherit
+      git
+      gh
+      ripgrep
+      fd
+      fzf
+      bat
+      eza
+      delta
+      jq
+      htop
+      btop
+      tmux
+      lazygit
+      zoxide
+      curl
+      wget
+      unzip
+      starship
+      ;
+  };
+}

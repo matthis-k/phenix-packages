@@ -1,7 +1,11 @@
 _: {
-  # Intentionally empty until real package aggregation inputs/outputs are added.
+  # Exports flake-level metadata for the consumer-side flakeModules.default API.
   perSystem = _: { };
   flake.phenixPackages = {
-    description = "Phenix package aggregator placeholder; no packages are exported yet.";
+    description = ''
+      Phenix curated package set with dev-tools package outputs and an
+      optional Home Manager module (homeModules.devTools). Enable with:
+        programs.phenix.devTools.enable = true;
+    '';
   };
 }
