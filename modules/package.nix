@@ -1,4 +1,4 @@
-_:
+{ inputs, ... }:
 let
   homeModules = {
     devTools = import ./home/dev-tools.nix;
@@ -9,7 +9,7 @@ in
     inherit homeModules;
   };
 
-  perSystem = { pkgs, ... }: {
+  perSystem = { pkgs, system, ... }: {
     inherit ((import ../packages/dev-tools.nix { inherit pkgs; })) packages;
 
     devShells.default = pkgs.mkShell {
@@ -19,6 +19,7 @@ in
         nixfmt
         statix
         deadnix
+        inputs.phenix-tend.packages.${system}.tend
       ];
       shellHook = ''
         repo-hook() {
