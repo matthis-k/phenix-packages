@@ -1,39 +1,41 @@
 # phenix-packages
 
-Phenix curated package set for NixOS and Home Manager.
-
-Part of the NewXOS migration (Chunk 3).
+Shared development packages and Home Manager modules for the Phenix workspace.
 
 ## Packages
 
 The flake exports the following packages under `packages.<system>.<name>`:
 
-| Package    | Description                          |
-|------------|--------------------------------------|
-| git        | Distributed version control system   |
-| gh         | GitHub CLI                           |
-| ripgrep    | Line-oriented search tool            |
-| fd         | Simple, fast alternative to `find`   |
-| fzf        | Command-line fuzzy finder            |
-| bat        | Cat clone with syntax highlighting   |
-| eza        | Modern `ls` replacement              |
-| delta      | Syntax-highlighting pager for git    |
-| jq         | Command-line JSON processor          |
-| htop       | Interactive process viewer           |
-| btop       | Resource monitor                     |
-| tmux       | Terminal multiplexer                 |
-| lazygit    | Terminal UI for git                  |
-| zoxide     | Smarter `cd` command                 |
-| curl       | HTTP client                          |
-| wget       | Network downloader                   |
-| unzip      | Zip file extractor                   |
-| starship   | Minimal, fast shell prompt           |
+| Package | Description |
+|---|---|
+| git | Distributed version control system |
+| gh | GitHub CLI |
+| ripgrep | Line-oriented search tool |
+| fd | Simple, fast alternative to `find` |
+| fzf | Command-line fuzzy finder |
+| bat | `cat` replacement with syntax highlighting |
+| eza | Modern `ls` replacement |
+| delta | Syntax-highlighting pager for Git |
+| jq | Command-line JSON processor |
+| htop | Interactive process viewer |
+| btop | Resource monitor |
+| tmux | Terminal multiplexer |
+| lazygit | Terminal UI for Git |
+| zoxide | Smarter directory navigation |
+| curl | HTTP client |
+| wget | Network downloader |
+| unzip | ZIP archive extractor |
+| starship | Shell prompt |
 
-Run individually: `nix run github:matthis-k/phenix-packages#<name>`
+Run a package directly with:
+
+```console
+nix run github:matthis-k/phenix-packages#<name>
+```
 
 ## Home Manager module
 
-Enable curated dev-tools via Home Manager:
+Enable the curated development tools through Home Manager:
 
 ```nix
 {
@@ -42,24 +44,22 @@ Enable curated dev-tools via Home Manager:
 }
 ```
 
-This adds the same 18 packages to `home.packages`. The module is opt-in and
-disabled by default.
+The module is opt-in and adds the same package set to `home.packages`.
 
-## Root integration
+## Aggregate integration
 
-Root flake integration (adding `phenix-packages` to root's nixosConfigurations,
-homeConfigurations, and devShells) is tracked in Chunk 5 of the migration.
+The root `phenix` flake imports this repository's flake module and re-exports its
+Home Manager surface. This repository owns only the shared package selection;
+workstation configuration remains in `phenix-hosts` and desktop behavior remains in
+`phenix-de`.
 
 ## Development
 
-Enter the dev shell: `nix develop`
+Enter the development shell with `nix develop`.
 
-Use `tend` for local checks:
-- `repo-check` — run all verifications
-- `repo-fix` — auto-format and lint
+Use the inline Tend helpers:
 
-## Current state
-
-- [x] Dev-tools package set (Chunk 3)
-- [ ] Root integration (Chunk 5)
-- [ ] Chunk 6: Final documentation
+- `repo-hook` — verify staged changes.
+- `repo-pushgate` — run the complete pre-push gate.
+- `repo-check` — run the manual verification profile.
+- `repo-fix` — apply the configured safe fixes.
