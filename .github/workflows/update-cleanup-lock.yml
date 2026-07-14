@@ -26,15 +26,13 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
           extra_nix_config: |
             experimental-features = nix-command flakes
-      - name: Update and format
-        run: |
-          nix flake update
-          nix develop --command nixfmt flake.nix modules/package.nix modules/home/dev-tools.nix packages/dev-tools.nix
+      - name: Update package graph
+        run: nix flake update
       - name: Commit generated graph
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add flake.lock flake.nix modules packages
+          git add flake.lock
           if ! git diff --cached --quiet; then
             git commit -m "chore: update package lock graph"
             git push origin HEAD:${{ github.head_ref || github.ref_name }}
