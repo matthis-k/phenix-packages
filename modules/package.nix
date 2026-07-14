@@ -9,61 +9,42 @@ in
     inherit homeModules;
   };
 
-  perSystem = { pkgs, system, ... }: {
-    inherit ((import ../packages/dev-tools.nix { inherit pkgs; })) packages;
+  perSystem =
+    { pkgs, system, ... }:
+    {
+      inherit ((import ../packages/dev-tools.nix { inherit pkgs; })) packages;
 
-    devShells.default = pkgs.mkShell {
-      name = "phenix-packages-dev";
-      packages = with pkgs; [
-        nix
-        nixfmt
-        statix
-        deadnix
-        inputs.phenix-tend.packages.${system}.tend
-      ];
-      shellHook = ''
-        repo-hook() {
-          if command -v tend &>/dev/null; then
-            tend check --profile git-hook --staged "$@"
-          else
-            echo "tend not available — enter the root Phenix dev shell" >&2
-            return 1
-          fi
-        }
-        repo-pushgate() {
-          if command -v tend &>/dev/null; then
-            tend check --profile pre-push "$@"
-          else
-            echo "tend not available — enter the root Phenix dev shell" >&2
-            return 1
-          fi
-        }
-        repo-check() {
-          if command -v tend &>/dev/null; then
-            tend check --profile manual "$@"
-          else
-            echo "tend not available — enter the root Phenix dev shell" >&2
-            return 1
-          fi
-        }
-        repo-fix() {
-          if command -v tend &>/dev/null; then
-            tend check --profile fix "$@"
-          else
-            echo "tend not available — enter the root Phenix dev shell" >&2
-            return 1
-          fi
-        }
-        export -f repo-hook repo-pushgate repo-check repo-fix 2>/dev/null || true
-        echo "phenix-packages dev shell"
-        echo "  tools: nix nixfmt statix deadnix"
-        if command -v tend &>/dev/null; then
-          echo "  repo-hook      -> tend check --profile git-hook --staged"
-          echo "  repo-pushgate  -> tend check --profile pre-push"
-          echo "  repo-check     -> tend check --profile manual"
-          echo "  repo-fix       -> tend check --profile fix"
-        fi
-      '';
+      devShells.default = pkgs.mkShell {
+        name = "phenix-packages-dev";
+        packages = with pkgs; [
+          nix
+          nixfmt
+          statix
+          deadnix
+          inputs.phenix-tend.packages.${system}.tend
+        ];
+        shellHook = ''
+          repo-hook() {
+            tend check --profile git-hook --context local "$@"
+          }
+          repo-pushgate() {
+            tend check --profile pre-push --context local "$@"
+          }
+          repo-check() {
+            tend check --profile manual --context local "$@"
+          }
+          repo-fix() {
+            tend check --profile fix --context local "$@"
+          }
+          export -f repo-hook repo-pushgate repo-check repo-fix 2>/dev/null || true
+
+          echo "phenix-packages dev shell"
+          echo "  tools: nix nixfmt statix deadnix tend"
+          echo "  repo-hook      -> tend check --profile git-hook --context local"
+          echo "  repo-pushgate  -> tend check --profile pre-push --context local"
+          echo "  repo-check     -> tend check --profile manual --context local"
+          echo "  repo-fix       -> tend check --profile fix --context local"
+        '';
+      };
     };
-  };
 }
