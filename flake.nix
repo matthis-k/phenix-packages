@@ -1,10 +1,19 @@
 {
-  description = "Phenix package aggregator placeholder";
+  description = "Shared Phenix development packages and Home Manager modules";
 
   inputs = {
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     phenix-pins.url = "github:matthis-k/phenix-pins";
-    phenix-tend.url = "github:matthis-k/phenix-tend";
+    phenix-tend = {
+      url = "github:matthis-k/phenix-tend";
+      inputs = {
+        phenix-pins.follows = "phenix-pins";
+        flake-parts.follows = "flake-parts";
+      };
+    };
     nixpkgs.follows = "phenix-pins/nixpkgs";
   };
 
