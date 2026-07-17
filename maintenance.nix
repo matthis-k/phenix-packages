@@ -5,31 +5,31 @@ let
 in
 {
   scripts = {
-    maintenance-check-format = {
+    "maintenance-check-format" = {
       packages = [ pkgs.findutils pkgs.nixfmt ];
       exec = ''${nixSources} -exec nixfmt --check {} +'';
     };
-    maintenance-check-statix = {
+    "maintenance-check-statix" = {
       packages = [ pkgs.statix ];
       exec = "statix check --ignore '.git/**'";
     };
-    maintenance-check-deadnix = {
+    "maintenance-check-deadnix" = {
       packages = [ pkgs.deadnix ];
       exec = "deadnix --fail --no-lambda-arg --no-lambda-pattern-names";
     };
-    maintenance-check-flake = {
+    "maintenance-check-flake" = {
       packages = [ pkgs.git pkgs.nix ];
       exec = "nix flake check --print-build-logs --keep-going";
     };
-    maintenance-fix-format = {
+    "maintenance-fix-format" = {
       packages = [ pkgs.findutils pkgs.nixfmt ];
       exec = ''${nixSources} -exec nixfmt {} +'';
     };
-    maintenance-fix-statix = {
+    "maintenance-fix-statix" = {
       packages = [ pkgs.statix ];
       exec = "statix fix";
     };
-    maintenance-fix-deadnix = {
+    "maintenance-fix-deadnix" = {
       packages = [ pkgs.deadnix ];
       exec = "deadnix --edit --no-lambda-arg --no-lambda-pattern-names";
     };
