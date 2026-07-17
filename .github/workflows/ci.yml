@@ -33,23 +33,4 @@ jobs:
       - name: Install devenv
         run: nix profile add nixpkgs#devenv
       - name: Run repository maintenance
-        shell: bash
-        run: |
-          set +e
-          devenv test > devenv-test.log 2>&1
-          status=$?
-          tail -n 240 devenv-test.log
-          exit "$status"
-      - name: Capture Statix diagnostics
-        if: failure()
-        shell: bash
-        run: devenv tasks run maintenance:statix > statix.log 2>&1 || true
-      - name: Upload devenv diagnostics
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: devenv-test-log
-          path: |
-            devenv-test.log
-            statix.log
-          if-no-files-found: error
+        run: devenv test
