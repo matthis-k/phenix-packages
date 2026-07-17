@@ -5,7 +5,10 @@ in
 {
   scripts = {
     "maintenance-check-format" = {
-      packages = [ pkgs.findutils pkgs.nixfmt ];
+      packages = [
+        pkgs.findutils
+        pkgs.nixfmt
+      ];
       exec = ''
         ${nixSources} -exec nixfmt --check {} +
       '';
@@ -22,12 +25,18 @@ in
     };
 
     "maintenance-check-flake" = {
-      packages = [ pkgs.git pkgs.nix ];
+      packages = [
+        pkgs.git
+        pkgs.nix
+      ];
       exec = "nix flake check --print-build-logs --keep-going";
     };
 
     "maintenance-fix-format" = {
-      packages = [ pkgs.findutils pkgs.nixfmt ];
+      packages = [
+        pkgs.findutils
+        pkgs.nixfmt
+      ];
       exec = ''
         ${nixSources} -exec nixfmt {} +
       '';
