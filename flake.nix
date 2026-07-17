@@ -7,13 +7,6 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     phenix-pins.url = "github:matthis-k/phenix-pins";
-    phenix-tend = {
-      url = "github:matthis-k/phenix-tend";
-      inputs = {
-        phenix-pins.follows = "phenix-pins";
-        flake-parts.follows = "flake-parts";
-      };
-    };
     nixpkgs.follows = "phenix-pins/nixpkgs";
   };
 
