@@ -1,4 +1,4 @@
-{ ... }:
+_:
 let
   homeModules = {
     devTools = import ./home/dev-tools.nix;
