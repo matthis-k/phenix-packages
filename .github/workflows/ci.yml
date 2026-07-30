@@ -32,9 +32,5 @@ jobs:
         with: { name: devenv }
       - name: Install devenv
         run: nix profile add nixpkgs#devenv
-      - name: Show formatter diff
-        run: |
-          nix shell nixpkgs#nixfmt -c nixfmt modules/package.nix
-          git diff -- modules/package.nix
       - name: Run repository maintenance
         run: devenv test
