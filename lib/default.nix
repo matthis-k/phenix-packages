@@ -1,4 +1,4 @@
 { lib }:
 {
-  mkPhenixWrapper = import ./mk-phenix-wrapper.nix { inherit lib; };
+  mkPhenixProgram = import ./mk-phenix-program.nix { inherit lib; };
 }
