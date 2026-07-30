@@ -16,11 +16,18 @@ assert lib.assertMsg (repository != "") "mkPhenixProgram: repository must not be
 assert lib.assertMsg (developmentPath != "") "mkPhenixProgram: developmentPath must not be empty";
 assert lib.assertMsg (storeName != "") "mkPhenixProgram: storeName must not be empty";
 assert lib.assertMsg (developmentName != "") "mkPhenixProgram: developmentName must not be empty";
-assert lib.assertMsg (name != storeName) "mkPhenixProgram: wrapper and store program names must differ";
-assert lib.assertMsg (name != developmentName) "mkPhenixProgram: wrapper and development program names must differ";
-assert lib.assertMsg (storeName != developmentName) "mkPhenixProgram: store and development program names must differ";
+assert lib.assertMsg (
+  name != storeName
+) "mkPhenixProgram: wrapper and store program names must differ";
+assert lib.assertMsg (
+  name != developmentName
+) "mkPhenixProgram: wrapper and development program names must differ";
+assert lib.assertMsg (
+  storeName != developmentName
+) "mkPhenixProgram: store and development program names must differ";
 let
-  commandMeta = commandName: (builtins.removeAttrs meta [ "mainProgram" ]) // { mainProgram = commandName; };
+  commandMeta =
+    commandName: (builtins.removeAttrs meta [ "mainProgram" ]) // { mainProgram = commandName; };
 
   store = pkgs.writeShellApplication {
     name = storeName;
