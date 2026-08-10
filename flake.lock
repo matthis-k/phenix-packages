@@ -176,7 +176,9 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "phenix-flake-ci": "phenix-flake-ci",
+        "phenix-flake-ci": [
+          "phenix-flake-ci"
+        ],
         "sops-nix": "sops-nix"
       },
       "locked": {
