@@ -11,21 +11,14 @@ in
 
   perSystem =
     { pkgs, ... }:
+    let
+      devTools = import ../packages/dev-tools.nix { inherit pkgs; };
+    in
     {
-      inherit ((import ../packages/dev-tools.nix { inherit pkgs; })) packages;
+      inherit (devTools) packages;
 
-      devShells.default = pkgs.mkShell {
-        name = "phenix-packages-dev";
-        packages = with pkgs; [
-          devenv
-          git
-          nix
-        ];
-        shellHook = ''
-          echo "phenix-packages dev shell"
-          echo "  maintenance: devenv test"
-          echo "  fixes:       devenv tasks run maintenance:fix"
-        '';
-      };
+      checks.dev-tools = pkgs.linkFarm "phenix-dev-tools-check" (
+        pkgs.lib.mapAttrsToList (name: path: { inherit name path; }) devTools.packages
+      );
     };
 }
