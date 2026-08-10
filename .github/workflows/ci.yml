@@ -32,6 +32,9 @@ jobs:
             accept-flake-config = true
             max-jobs = auto
 
+      - name: Resolve merged pins metadata
+        run: nix flake metadata --json github:matthis-k/phenix-pins/303219176d2aa3357726bee28981d391b6d8c095 | jq .locked && exit 1
+
       - name: "Nix formatting"
         run: nix run .#phenix-maintenance -- check nix-format
 
